@@ -1,0 +1,2 @@
+mkdir newDir
+mv Друзья_человека newDir

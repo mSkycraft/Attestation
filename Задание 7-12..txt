@@ -1,0 +1,78 @@
+Задание 7.
+CREATE DATABASE Friends_peoples;
+
+Задание 8.
+use Friends_peoples;
+
+CREATE TABLE `Friends_peoples`.`beasts` (`id` INT NOT NULL , `type` VARCHAR(50) NOT NULL ) ENGINE = InnoDB;
+INSERT INTO `beasts` (`type`) VALUES ('pets');
+INSERT INTO `beasts` (`type`) VALUES ('pack_animals');
+
+CREATE TABLE `Friends_peoples`.`pets` (`id` INT NOT NULL  , `pets_type` VARCHAR(50) NOT NULL ) ENGINE = InnoDB;
+INSERT INTO `pets` (`pets_type`) VALUES ('cat');
+INSERT INTO `pets` (`pets_type`) VALUES ('dog');
+INSERT INTO `pets` (`pets_type`) VALUES ('humster');
+
+
+CREATE TABLE `Friends_peoples`.`pack_animals` (`id` INT NOT NULL AUTO_INCREMENT , `pack_animals_type` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+INSERT INTO `pack_animals` (`pack_animals_type`) VALUES ('horse');
+INSERT INTO `pack_animals` (`pack_animals_type`) VALUES ('camel');
+INSERT INTO `pack_animals` (`pack_animals_type`) VALUES ('donkey');
+
+CREATE TABLE `Friends_peoples`.`cat` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `Friends_peoples`.`dog` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `Friends_peoples`.`humster` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `Friends_peoples`.`horse` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `Friends_peoples`.`camel` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `Friends_peoples`.`donkey` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+INSERT INTO `cat` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Кара', 'Кушать,фу!', '2019-04-20'), (NULL, 'Барсик', 'Иди жрать', '2020-06-24');
+INSERT INTO `dog` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Лайла', 'Лежать,сидеть,фу!', '2022-04-21'), (NULL, 'Рекс', 'Лежать,сидеть,Фас,Фу,Дай лапу', '2021-04-24');
+INSERT INTO `humster` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Гоша', '', '2023-01-21'), (NULL, 'Санек', 'Бегать', '2022-06-24');
+INSERT INTO `horse` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Герцог', 'Стоять,Бегом', '2019-04-20'), (NULL, 'Звездочка', '', '2022-05-02');
+INSERT INTO `camel` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Малыш', 'Стоять,лежать', '2017-04-17'), (NULL, 'Борис', 'Стоять,лежать,ждать', '2018-07-21');
+INSERT INTO `donkey` (`id`, `name`, `commands`, `birthday`) VALUES (NULL, 'Иа', 'Стоять,идти', '2019-04-20'), (NULL, 'Иосиф', 'Стоять', '2022-02-24');
+
+Задание 9.
+DELETE FROM camel;
+
+Задание 10.
+CREATE TABLE `Friends_peoples`.`horse_and_donkey` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `commands` VARCHAR(200) NOT NULL , `birthday` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+INSERT INTO `horse_and_donkey`
+   (`name`, `commands`, `birthday`)  
+Select `name`, `commands`, `birthday` FROM horse
+	Union Select `name`, `commands`, `birthday` From donkey;
+
+Задание 11.
+CREATE TABLE Young_animals AS
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM cat WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3)
+UNION
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM dog WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3)
+UNION
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM humster WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3)
+UNION
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM horse WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3)
+UNION
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM donkey WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3)
+UNION
+Select *,DATEDIFF(CURRENT_DATE(), birthday)/30,DATEDIFF(CURRENT_DATE(), birthday)/365 FROM camel WHERE (DATEDIFF(CURRENT_DATE(), birthday)/365>1)AND(DATEDIFF(CURRENT_DATE(), birthday)/365<3);
+
+
+Задание 12.
+SELECT 'horse' as tablename,id,name,commands,birthday,NULL as type FROM `horse`
+UNION ALL
+SELECT 'cat' as tablename,id,name,commands,birthday,NULL as type FROM `cat`
+UNION ALL
+SELECT 'dog' as tablename,id,name,commands,birthday,NULL as type FROM `dog`
+UNION ALL
+SELECT 'humster' as tablename,id,name,commands,birthday,NULL as type FROM `humster`
+UNION ALL
+SELECT 'donkey' as tablename,id,name,commands,birthday,NULL as type FROM `donkey`
+UNION ALL
+SELECT 'beasts' as tablename,id,NULL as name,NULL as commands,NULL as birthday,type FROM `beasts`
+UNION ALL
+SELECT 'pets' as tablename,id,NULL as name,NULL as commands,NULL as birthday,type FROM `pets`
+UNION ALL
+SELECT 'pack_animals' as tablename,id,NULL as name,NULL as commands,NULL as birthday,type FROM `pack_animals`;
